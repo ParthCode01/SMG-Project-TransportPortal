@@ -4,17 +4,18 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import RequestVehicle from "./pages/RequestVehicle";
 import TrackVehicle from "./pages/TrackVehicle";
-import { Toaster } from "react-hot-toast";
 
-// OPTIONAL: later use auth
-// const isLoggedIn = () => !!localStorage.getItem("token");
+// ✅ Updated imports for checksheets
+import CheckSheets from "./pages/CheckSheets";
+import CheckSheetForm from "./pages/CheckSheetForm";
+
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-
           {/* Public Route */}
           <Route path="/" element={<Login />} />
 
@@ -23,8 +24,12 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/request" element={<RequestVehicle />} />
             <Route path="/track" element={<TrackVehicle />} />
-          </Route>
 
+            {/* ✅ Checksheet Routes */}
+            <Route path="/checksheets" element={<CheckSheets />} />
+            <Route path="/checksheets/new" element={<CheckSheetForm />} />
+            <Route path="/checksheets/:id/edit" element={<CheckSheetForm />} />
+          </Route>
         </Routes>
       </BrowserRouter>
 

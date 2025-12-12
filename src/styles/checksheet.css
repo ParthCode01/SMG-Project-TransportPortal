@@ -1,0 +1,169 @@
+/* ===========================
+   Basic UI
+=========================== */
+.checksheet-container {
+  padding: 16px;
+  font-family: Arial, sans-serif;
+  color: #111;
+}
+
+.checksheet-container h2 {
+  margin-bottom: 12px;
+}
+
+.role-select {
+  margin: 8px 0;
+}
+
+/* ===========================
+   Inputs & Buttons
+=========================== */
+.small-input {
+  width: 140px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checksheet-table input[type="text"],
+.checksheet-table input[type="date"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.checksheet-table input[type="checkbox"] {
+  transform: scale(1.2);
+  margin: 0 auto;
+  display: block;
+}
+
+/* Buttons */
+.btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn:hover {
+  opacity: 0.9;
+}
+.btn.primary {
+  background: #0b76d1;
+  color: #fff;
+  border-color: #075a9a;
+}
+.btn.danger {
+  background: #d94b4b;
+  color: #fff;
+  border-color: #8a2b2b;
+}
+
+/* ===========================
+   Table
+=========================== */
+.checksheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.checksheet-table th,
+.checksheet-table td {
+  border: 1px solid #d0d6dc;
+  padding: 6px;
+  vertical-align: middle;
+}
+
+.checksheet-table th {
+  background: #f4f7fb;
+  text-align: left;
+}
+
+.checkbox-center {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Readonly input style */
+.readonly,
+.checksheet-table input:disabled {
+  background: #f5f5f5;
+  color: #555;
+  cursor: not-allowed;
+}
+
+/* Comments & Action column styling */
+.checksheet-table td input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+}
+
+/* Align Remove button in the last column */
+.checksheet-table td .btn.danger {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+/* ===========================
+   Action Buttons Container
+=========================== */
+.checksheet-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.checksheet-actions .btn {
+  min-width: 110px;
+}
+
+/* ===========================
+   Print Styles
+=========================== */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .checksheet-table {
+    page-break-inside: avoid;
+    font-size: 12px;
+  }
+  .btn,
+  input {
+    display: none !important;
+  }
+}
+
+/* ===========================
+   Screen Grid Preview (Optional)
+=========================== */
+@media screen {
+  .three-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .sheet-card {
+    border: 1px solid #2b57a8;
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0 0 0 1px #fff;
+  }
+}

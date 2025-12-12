@@ -5,9 +5,20 @@ function Sidebar() {
     <div style={styles.sidebar}>
       <h2 style={styles.logo}>SMG Portal</h2>
 
-      <Link to="/dashboard" style={styles.link}>Dashboard</Link>
-      <Link to="/request" style={styles.link}>Request Vehicle</Link>
-      <Link to="/track" style={styles.link}>Track Vehicle</Link>
+      <Link to="/dashboard" style={styles.link}>
+        Dashboard
+      </Link>
+      <Link to="/request" style={styles.link}>
+        Request Vehicle
+      </Link>
+      <Link to="/track" style={styles.link}>
+        Track Vehicle
+      </Link>
+
+      {/* ⭐ NEW CHECKSHEET MENU ITEM */}
+      <Link to="/checksheets" style={styles.link}>
+        Delivery CheckSheets
+      </Link>
     </div>
   );
 }
@@ -21,10 +32,10 @@ const styles = {
     color: "white",
     display: "flex",
     flexDirection: "column",
-    gap: "20px"
+    gap: "20px",
   },
   logo: {
-    marginBottom: "30px"
+    marginBottom: "30px",
   },
   link: {
     color: "white",
@@ -32,7 +43,7 @@ const styles = {
     padding: "10px",
     borderRadius: "6px",
     background: "#2a2a3e",
-  }
+  },
 };
 
 export default Sidebar;
