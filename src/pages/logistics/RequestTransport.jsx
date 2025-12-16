@@ -1,3 +1,4 @@
+// src/pages/logistics/RequestTransport.jsx
 import React, { useState } from "react";
 
 const RequestTransport = () => {
@@ -29,6 +30,7 @@ const RequestTransport = () => {
           className="p-3 border rounded"
           value={form.partner}
           onChange={handleChange}
+          required
         >
           <option value="">Select Partner</option>
           <option value="1">John (SpeedX)</option>
@@ -41,6 +43,7 @@ const RequestTransport = () => {
           className="p-3 border rounded"
           onChange={handleChange}
           value={form.pickup}
+          required
         />
 
         <input
@@ -49,6 +52,7 @@ const RequestTransport = () => {
           className="p-3 border rounded"
           onChange={handleChange}
           value={form.drop}
+          required
         />
 
         <input
@@ -57,6 +61,7 @@ const RequestTransport = () => {
           className="p-3 border rounded"
           onChange={handleChange}
           value={form.goods}
+          required
         />
 
         <button className="py-3 px-4 bg-blue-600 text-white rounded hover:bg-blue-700">

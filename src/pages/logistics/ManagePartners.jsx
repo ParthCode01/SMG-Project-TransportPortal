@@ -1,3 +1,4 @@
+// src/pages/logistics/ManagePartners.jsx
 import React from "react";
 
 const ManagePartners = () => {
@@ -10,8 +11,8 @@ const ManagePartners = () => {
     <div className="p-6">
       <h1 className="text-3xl font-semibold mb-6">Manage Partners</h1>
 
-      <div className="bg-white shadow rounded-xl p-6">
-        <table className="w-full">
+      <div className="bg-white shadow rounded-xl p-6 overflow-x-auto">
+        <table className="w-full border-collapse">
           <thead>
             <tr className="text-left border-b">
               <th className="p-3">Name</th>
@@ -36,7 +37,7 @@ const ManagePartners = () => {
                   </span>
                 </td>
                 <td className="p-3">
-                  <button className="px-3 py-1 bg-blue-500 text-white rounded">
+                  <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
                     View
                   </button>
                 </td>

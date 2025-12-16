@@ -31,6 +31,40 @@ function Sidebar() {
       >
         Delivery CheckSheets
       </NavLink>
+
+      {/* PDI */}
+      <NavLink
+        to="/pdi"
+        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
+      >
+        PDI Inspection
+      </NavLink>
+
+      {/* LOGISTICS */}
+      <NavLink
+        to="/logistics"
+        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
+      >
+        Logistics Dashboard
+      </NavLink>
+      <NavLink
+        to="/logistics/add-partner"
+        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
+      >
+        Add Partner
+      </NavLink>
+      <NavLink
+        to="/logistics/manage-partners"
+        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
+      >
+        Manage Partners
+      </NavLink>
+      <NavLink
+        to="/logistics/request"
+        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
+      >
+        Request Transport
+      </NavLink>
     </div>
   );
 }
