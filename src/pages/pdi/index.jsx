@@ -38,11 +38,8 @@ const OPTIONS = ["Pass", "Fail", "NA"];
 const emptyRow = (part) => ({
   part_name: part,
   col1: "NA",
-  col2: "NA",
-  col3: "NA",
-  col4: "NA",
-  col5: "NA",
 });
+
 
 export default function PDI() {
   const [meta, setMeta] = useState({
@@ -91,14 +88,12 @@ export default function PDI() {
       totalFail = 0,
       totalNA = 0;
 
-    rows.forEach((r) => {
-      ["col1", "col2", "col3", "col4", "col5"].forEach((c) => {
-        const v = r[c];
-        if (v === "Pass") totalPass++;
-        else if (v === "Fail") totalFail++;
-        else totalNA++;
-      });
-    });
+rows.forEach((r) => {
+  const v = r.col1;
+  if (v === "Pass") totalPass++;
+  else if (v === "Fail") totalFail++;
+  else totalNA++;
+});
 
     const status = totalFail > 0 ? "Faulty" : "Correct";
 
@@ -159,9 +154,8 @@ export default function PDI() {
               <tr>
                 <th className="border p-2">#</th>
                 <th className="border p-2">Part</th>
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <th key={n} className="border p-2">{n}</th>
-                ))}
+                <th className="border p-2">Result</th>
+
               </tr>
             </thead>
             <tbody>
@@ -169,19 +163,18 @@ export default function PDI() {
                 <tr key={i}>
                   <td className="border p-2 text-center">{i + 1}</td>
                   <td className="border p-2">{r.part_name}</td>
-                  {[1,2,3,4,5].map((c) => (
-                    <td key={c} className="border p-2">
-                      <select
-                        value={r["col" + c]}
-                        onChange={(e) => handleRowChange(i, "col" + c, e.target.value)}
-                        className="w-full border p-1 rounded"
-                      >
-                        {OPTIONS.map((o) => (
-                          <option key={o} value={o}>{o}</option>
-                        ))}
-                      </select>
-                    </td>
-                  ))}
+                  <td className="border p-2">
+                  <select
+               value={r.col1}
+    onChange={(e) => handleRowChange(i, "col1", e.target.value)}
+    className="w-full border p-1 rounded"
+  >
+    {OPTIONS.map((o) => (
+      <option key={o} value={o}>{o}</option>
+    ))}
+  </select>
+</td>
+
                 </tr>
               ))}
             </tbody>
