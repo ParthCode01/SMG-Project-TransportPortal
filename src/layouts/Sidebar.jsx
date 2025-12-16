@@ -1,24 +1,36 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
     <div style={styles.sidebar}>
       <h2 style={styles.logo}>SMG Portal</h2>
 
-      <Link to="/dashboard" style={styles.link}>
+      <NavLink
+        to="/dashboard"
+        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
+      >
         Dashboard
-      </Link>
-      <Link to="/request" style={styles.link}>
+      </NavLink>
+      <NavLink
+        to="/request"
+        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
+      >
         Request Vehicle
-      </Link>
-      <Link to="/track" style={styles.link}>
+      </NavLink>
+      <NavLink
+        to="/track"
+        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
+      >
         Track Vehicle
-      </Link>
+      </NavLink>
 
-      {/* ⭐ NEW CHECKSHEET MENU ITEM */}
-      <Link to="/checksheets" style={styles.link}>
+      {/* COMPANY-ONLY DELIVERY CHECKSHEET */}
+      <NavLink
+        to="/checksheets"
+        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
+      >
         Delivery CheckSheets
-      </Link>
+      </NavLink>
     </div>
   );
 }
@@ -32,17 +44,30 @@ const styles = {
     color: "white",
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
+    gap: "14px",
   },
   logo: {
-    marginBottom: "30px",
+    marginBottom: "25px",
+    fontSize: "20px",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   link: {
     color: "white",
     textDecoration: "none",
-    padding: "10px",
+    padding: "10px 14px",
     borderRadius: "6px",
     background: "#2a2a3e",
+    fontSize: "14px",
+  },
+  activeLink: {
+    color: "white",
+    textDecoration: "none",
+    padding: "10px 14px",
+    borderRadius: "6px",
+    background: "#4f46e5",
+    fontSize: "14px",
+    fontWeight: "600",
   },
 };
 

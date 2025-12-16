@@ -5,9 +5,10 @@ import Dashboard from "./pages/Dashboard";
 import RequestVehicle from "./pages/RequestVehicle";
 import TrackVehicle from "./pages/TrackVehicle";
 
-// ✅ Updated imports for checksheets
-import CheckSheets from "./pages/CheckSheets";
-import CheckSheetForm from "./pages/CheckSheetForm";
+// Delivery CheckSheets
+import DealerList from "./pages/checklist/DealerList";
+import CreateDealerOrder from "./pages/checklist/CreateDealerOrder";
+import DealerOrderChecklist from "./pages/checklist/DealerOrderChecklist";
 
 import { Toaster } from "react-hot-toast";
 
@@ -19,21 +20,24 @@ function App() {
           {/* Public Route */}
           <Route path="/" element={<Login />} />
 
-          {/* Private Routes inside Dashboard Layout */}
+          {/* Protected Routes */}
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/request" element={<RequestVehicle />} />
             <Route path="/track" element={<TrackVehicle />} />
 
-            {/* ✅ Checksheet Routes */}
-            <Route path="/checksheets" element={<CheckSheets />} />
-            <Route path="/checksheets/new" element={<CheckSheetForm />} />
-            <Route path="/checksheets/:id/edit" element={<CheckSheetForm />} />
+            {/* Delivery CheckSheets */}
+            <Route path="/checksheets" element={<DealerList />} />
+            <Route path="/checksheets/create" element={<CreateDealerOrder />} />
+            <Route
+              path="/checksheets/order/:orderId"
+              element={<DealerOrderChecklist />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
 
-      {/* Toaster for success/error messages */}
+      {/* Toast Messages */}
       <Toaster position="top-right" />
     </>
   );
