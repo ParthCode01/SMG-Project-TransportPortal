@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { ChecklistsContext } from "../../context/ChecklistsContext"; // ✅ import context
 
 function DealerList() {
-  const [lists, setLists] = useState([]);
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("checklists")) || [];
-    setLists(data);
-  }, []);
+  const { checklists } = useContext(ChecklistsContext); // ✅ use context
 
   return (
     <div className="p-6 space-y-6">
@@ -34,8 +30,8 @@ function DealerList() {
           </thead>
 
           <tbody>
-            {lists.length > 0 ? (
-              lists.map((item) => (
+            {checklists.length > 0 ? (
+              checklists.map((item) => (
                 <tr
                   key={item.id}
                   className="hover:bg-gray-50 transition-colors duration-150"

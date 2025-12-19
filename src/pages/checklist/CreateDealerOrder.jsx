@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckSheetRow from "../../components/CheckSheetRow";
+import { ChecklistsContext } from "../../context/ChecklistsContext"; // ✅ new
 
 const emptyScooter = {
   model: "",
@@ -15,6 +16,7 @@ const emptyScooter = {
 
 function CreateDealerOrder() {
   const navigate = useNavigate();
+  const { addChecklist } = useContext(ChecklistsContext); // ✅ use context
 
   const [dealer, setDealer] = useState({ name: "", code: "" });
   const [generalInfo, setGeneralInfo] = useState({
@@ -61,11 +63,7 @@ function CreateDealerOrder() {
       createdAt: new Date().toISOString(),
     };
 
-    const existing = JSON.parse(localStorage.getItem("checklists")) || [];
-    localStorage.setItem(
-      "checklists",
-      JSON.stringify([...existing, checklist])
-    );
+    addChecklist(checklist); // ✅ use context instead of localStorage
 
     navigate("/checksheets");
   };

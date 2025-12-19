@@ -1,10 +1,8 @@
 // src/pages/pdi/index.jsx
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-/*
- Parts extracted from Excel sheet (hardcoded).
-*/
+/* EXACT SAME PART LIST – DO NOT MODIFY */
 const PARTS = [
   "Lockset ON/OFF function",
   "Seat lock and Side lock function",
@@ -34,160 +32,158 @@ const PARTS = [
 ];
 
 const OPTIONS = ["Pass", "Fail", "NA"];
-
-const emptyRow = (part) => ({
-  part_name: part,
-  col1: "NA",
-});
-
+const emptyRows = () => PARTS.map(p => ({ part: p, result: "NA" }));
 
 export default function PDI() {
-  const [meta, setMeta] = useState({
-    vin: "",
-    model: "",
-    dealer_name: "",
-    dealer_code: "",
-    date_inspected: "",
-    battery_no: "",
-    charger_no: "",
-    motor_no: "",
-    controller_no: "",
+  /* Batch / Truck Info */
+  const [batchMeta, setBatchMeta] = useState({
+    truck_no: "",
+    inspector_name: "",
+    inspector_id: "",
+    date: "",
   });
 
-  const [rows, setRows] = useState(PARTS.map((p) => emptyRow(p)));
-  const [savedVinList, setSavedVinList] = useState([]);
-  const [summary, setSummary] = useState(null);
+  /* Current Vehicle */
+  const [vin, setVin] = useState("");
+  const [rows, setRows] = useState(emptyRows());
 
-  useEffect(() => {
-    const list = JSON.parse(localStorage.getItem("pdi_vehicles") || "[]");
-    setSavedVinList(list);
-  }, []);
+  /* Batch Results */
+  const [batch, setBatch] = useState([]);
 
-  const handleMetaChange = (e) => {
-    setMeta({ ...meta, [e.target.name]: e.target.value });
-  };
-
-  const handleRowChange = (index, col, value) => {
+  const handleRowChange = (i, value) => {
     const copy = [...rows];
-    copy[index] = { ...copy[index], [col]: value };
+    copy[i].result = value;
     setRows(copy);
   };
 
-  const resetRows = () => {
-    setRows(PARTS.map((p) => emptyRow(p)));
-    toast("Table reset");
-  };
-
-  const saveInspection = () => {
-    if (!meta.vin) {
+  const saveVehicleInspection = () => {
+    if (!vin) {
       toast.error("VIN is required");
       return;
     }
 
-    let totalPass = 0,
-      totalFail = 0,
-      totalNA = 0;
+    let fail = rows.some(r => r.result === "Fail");
+    const status = fail ? "FAIL" : "PASS";
 
-rows.forEach((r) => {
-  const v = r.col1;
-  if (v === "Pass") totalPass++;
-  else if (v === "Fail") totalFail++;
-  else totalNA++;
-});
+    setBatch(prev => [
+      ...prev,
+      { vin, status }
+    ]);
 
-    const status = totalFail > 0 ? "Faulty" : "Correct";
+    localStorage.setItem(
+      `inspection_${vin}`,
+      JSON.stringify({ vin, rows, status })
+    );
 
-    const payload = {
-      meta,
-      rows,
-      summary: { totalPass, totalFail, totalNA, status },
-    };
+    toast.success(`Vehicle ${vin} saved as ${status}`);
 
-    localStorage.setItem(`inspection_${meta.vin}`, JSON.stringify(payload));
-
-    const list = JSON.parse(localStorage.getItem("pdi_vehicles") || "[]");
-    if (!list.includes(meta.vin)) {
-      list.unshift(meta.vin);
-      localStorage.setItem("pdi_vehicles", JSON.stringify(list));
-      setSavedVinList(list);
-    }
-
-    setSummary(payload.summary);
-    toast.success(`Saved. Status: ${status}`);
+    // Reset for next scooter
+    setVin("");
+    setRows(emptyRows());
   };
 
-  const loadByVin = (vin) => {
-    const raw = localStorage.getItem(`inspection_${vin}`);
-    if (!raw) {
-      toast.error("No record found");
+  const generateBatchPDF = () => {
+    const passVehicles = batch.filter(v => v.status === "PASS");
+
+    if (passVehicles.length === 0) {
+      toast.error("No PASS vehicles to generate PDF");
       return;
     }
-    const payload = JSON.parse(raw);
-    setMeta(payload.meta);
-    setRows(payload.rows);
-    setSummary(payload.summary);
+
+    window.print();
   };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-semibold mb-6">PDI Inspection</h1>
+        <h1 className="text-3xl font-semibold mb-4">
+          Company Batch PDI – Dispatch Certification
+        </h1>
 
-        {/* Meta info */}
-        <div className="bg-white p-4 rounded shadow mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {Object.keys(meta).map((key) => (
+        {/* Batch Meta */}
+        <div className="bg-white p-4 rounded shadow mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+          {Object.keys(batchMeta).map(key => (
             <input
               key={key}
-              name={key}
-              value={meta[key]}
-              onChange={handleMetaChange}
               placeholder={key.replace("_", " ").toUpperCase()}
-              className="p-2 border rounded"
+              value={batchMeta[key]}
+              onChange={e =>
+                setBatchMeta({ ...batchMeta, [key]: e.target.value })
+              }
+              className="border p-2 rounded"
             />
           ))}
         </div>
 
-        {/* Table */}
+        {/* Vehicle VIN */}
+        <div className="bg-white p-4 rounded shadow mb-4">
+          <input
+            value={vin}
+            onChange={e => setVin(e.target.value)}
+            placeholder="ENTER VEHICLE VIN"
+            className="border p-2 rounded w-full"
+          />
+        </div>
+
+        {/* Inspection Table */}
         <div className="bg-white p-4 rounded shadow overflow-x-auto">
           <table className="min-w-full border">
             <thead className="bg-gray-200">
               <tr>
                 <th className="border p-2">#</th>
-                <th className="border p-2">Part</th>
+                <th className="border p-2">Inspection Item</th>
                 <th className="border p-2">Result</th>
-
               </tr>
             </thead>
             <tbody>
               {rows.map((r, i) => (
                 <tr key={i}>
                   <td className="border p-2 text-center">{i + 1}</td>
-                  <td className="border p-2">{r.part_name}</td>
+                  <td className="border p-2">{r.part}</td>
                   <td className="border p-2">
-                  <select
-               value={r.col1}
-    onChange={(e) => handleRowChange(i, "col1", e.target.value)}
-    className="w-full border p-1 rounded"
-  >
-    {OPTIONS.map((o) => (
-      <option key={o} value={o}>{o}</option>
-    ))}
-  </select>
-</td>
-
+                    <select
+                      value={r.result}
+                      onChange={e => handleRowChange(i, e.target.value)}
+                      className="border p-1 rounded w-full"
+                    >
+                      {OPTIONS.map(o => (
+                        <option key={o}>{o}</option>
+                      ))}
+                    </select>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
           <div className="mt-4 flex gap-2">
-            <button onClick={saveInspection} className="bg-green-600 text-white px-4 py-2 rounded">
-              Save
+            <button
+              onClick={saveVehicleInspection}
+              className="bg-green-600 text-white px-4 py-2 rounded"
+            >
+              Save Vehicle & Add to Batch
             </button>
-            <button onClick={resetRows} className="bg-gray-200 px-4 py-2 rounded">
-              Reset
+
+            <button
+              onClick={generateBatchPDF}
+              className="bg-blue-600 text-white px-4 py-2 rounded"
+            >
+              Generate Dispatch PDF (PASS ONLY)
             </button>
           </div>
+        </div>
+
+        {/* Batch Summary */}
+        <div className="mt-6 bg-white p-4 rounded shadow">
+          <h2 className="text-lg font-semibold mb-2">Batch Summary</h2>
+          {batch.map((b, i) => (
+            <p key={i}>
+              {b.vin} —{" "}
+              <span className={b.status === "PASS" ? "text-green-600" : "text-red-600"}>
+                {b.status}
+              </span>
+            </p>
+          ))}
         </div>
       </div>
     </div>

@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CheckSheetRow from "../../components/CheckSheetRow";
 import { generatePDF } from "../../utils/formatPDF";
+import { ChecklistsContext } from "../../context/ChecklistsContext"; // ✅ import context
 
 const emptyScooter = {
   model: "",
@@ -16,12 +17,14 @@ const emptyScooter = {
 
 function DealerOrderChecklist() {
   const { orderId } = useParams();
+  const { checklists, updateChecklist } = useContext(ChecklistsContext); // ✅ use context
+
   const [checklist, setChecklist] = useState(null);
 
   useEffect(() => {
-    const all = JSON.parse(localStorage.getItem("checklists")) || [];
-    setChecklist(all.find((c) => String(c.id) === orderId));
-  }, [orderId]);
+    const found = checklists.find((c) => String(c.id) === orderId);
+    setChecklist(found || null);
+  }, [checklists, orderId]); // ✅ update when context changes
 
   if (!checklist)
     return (
@@ -48,11 +51,7 @@ function DealerOrderChecklist() {
   };
 
   const saveUpdates = () => {
-    const all = JSON.parse(localStorage.getItem("checklists")) || [];
-    localStorage.setItem(
-      "checklists",
-      JSON.stringify(all.map((c) => (c.id === checklist.id ? checklist : c)))
-    );
+    updateChecklist(checklist); // ✅ update via context
     alert("Checklist updated");
   };
 

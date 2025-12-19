@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useState, useEffect } from "react";
 
+/* Context */
+import { ChecklistsProvider } from "./context/ChecklistsContext"; // ✅ import provider
+
 /* Pages */
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -41,7 +44,7 @@ function App() {
   }, [darkMode]);
 
   return (
-    <>
+    <ChecklistsProvider> {/* ✅ wrap everything in provider */}
       <BrowserRouter>
         <Routes>
           {/* Public */}
@@ -49,7 +52,9 @@ function App() {
 
           {/* Protected / Dashboard */}
           <Route
-            element={<DashboardLayout darkMode={darkMode} setDarkMode={setDarkMode} />}
+            element={
+              <DashboardLayout darkMode={darkMode} setDarkMode={setDarkMode} />
+            }
           >
             {/* Main */}
             <Route path="/dashboard" element={<Dashboard />} />
@@ -71,14 +76,17 @@ function App() {
             <Route path="/logistics" element={<LogisticsDashboard />} />
             <Route path="/logistics/request" element={<RequestTransport />} />
             <Route path="/logistics/add-partner" element={<AddPartner />} />
-            <Route path="/logistics/manage-partners" element={<ManagePartners />} />
+            <Route
+              path="/logistics/manage-partners"
+              element={<ManagePartners />}
+            />
             <Route path="/logistics/partner/:id" element={<PartnerDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>
 
       <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
-    </>
+    </ChecklistsProvider>
   );
 }
 
