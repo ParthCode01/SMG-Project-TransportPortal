@@ -1,108 +1,179 @@
 import { NavLink } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Truck,
+  MapPin,
+  ClipboardList,
+  ClipboardCheck,
+  Boxes,
+  UserPlus,
+  Users,
+  Send,
+} from "lucide-react";
+
+const linkBase =
+  "flex items-center gap-3 rounded-md px-4 py-2 text-sm font-medium transition-all";
 
 function Sidebar() {
   return (
-    <div style={styles.sidebar}>
-      <h2 style={styles.logo}>SMG Portal</h2>
+    <aside className="w-64 min-h-screen bg-brand text-white">
+      {/* Logo */}
+      <div className="h-16 flex items-center justify-center border-b border-white/15">
+        <h1 className="text-lg font-semibold tracking-wide">
+          SMG Transport Portal
+        </h1>
+      </div>
 
-      <NavLink
-        to="/dashboard"
-        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
-      >
-        Dashboard
-      </NavLink>
-      <NavLink
-        to="/request"
-        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
-      >
-        Request Vehicle
-      </NavLink>
-      <NavLink
-        to="/track"
-        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
-      >
-        Track Vehicle
-      </NavLink>
+      <nav className="p-4 space-y-6">
+        {/* MAIN */}
+        <div>
+          <p className="mb-2 text-xs uppercase tracking-wider text-white/60">
+            Main
+          </p>
 
-      {/* COMPANY-ONLY DELIVERY CHECKSHEET */}
-      <NavLink
-        to="/checksheets"
-        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
-      >
-        Delivery CheckSheets
-      </NavLink>
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              `${linkBase} ${
+                isActive
+                  ? "bg-white/20"
+                  : "hover:bg-white/10"
+              }`
+            }
+          >
+            <LayoutDashboard size={18} />
+            Dashboard
+          </NavLink>
 
-      {/* PDI */}
-      <NavLink
-        to="/pdi"
-        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
-      >
-        PDI Inspection
-      </NavLink>
+          <NavLink
+            to="/request"
+            className={({ isActive }) =>
+              `${linkBase} ${
+                isActive
+                  ? "bg-white/20"
+                  : "hover:bg-white/10"
+              }`
+            }
+          >
+            <Truck size={18} />
+            Request Vehicle
+          </NavLink>
 
-      {/* LOGISTICS */}
-      <NavLink
-        to="/logistics"
-        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
-      >
-        Logistics Dashboard
-      </NavLink>
-      <NavLink
-        to="/logistics/add-partner"
-        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
-      >
-        Add Partner
-      </NavLink>
-      <NavLink
-        to="/logistics/manage-partners"
-        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
-      >
-        Manage Partners
-      </NavLink>
-      <NavLink
-        to="/logistics/request"
-        style={({ isActive }) => (isActive ? styles.activeLink : styles.link)}
-      >
-        Request Transport
-      </NavLink>
-    </div>
+          <NavLink
+            to="/track"
+            className={({ isActive }) =>
+              `${linkBase} ${
+                isActive
+                  ? "bg-white/20"
+                  : "hover:bg-white/10"
+              }`
+            }
+          >
+            <MapPin size={18} />
+            Track Vehicle
+          </NavLink>
+        </div>
+
+        {/* OPERATIONS */}
+        <div>
+          <p className="mb-2 text-xs uppercase tracking-wider text-white/60">
+            Operations
+          </p>
+
+          <NavLink
+            to="/checksheets"
+            className={({ isActive }) =>
+              `${linkBase} ${
+                isActive
+                  ? "bg-white/20"
+                  : "hover:bg-white/10"
+              }`
+            }
+          >
+            <ClipboardList size={18} />
+            Delivery CheckSheets
+          </NavLink>
+
+          <NavLink
+            to="/pdi"
+            className={({ isActive }) =>
+              `${linkBase} ${
+                isActive
+                  ? "bg-white/20"
+                  : "hover:bg-white/10"
+              }`
+            }
+          >
+            <ClipboardCheck size={18} />
+            PDI Inspection
+          </NavLink>
+        </div>
+
+        {/* LOGISTICS */}
+        <div>
+          <p className="mb-2 text-xs uppercase tracking-wider text-white/60">
+            Logistics
+          </p>
+
+          <NavLink
+            to="/logistics"
+            className={({ isActive }) =>
+              `${linkBase} ${
+                isActive
+                  ? "bg-white/20"
+                  : "hover:bg-white/10"
+              }`
+            }
+          >
+            <Boxes size={18} />
+            Dashboard
+          </NavLink>
+
+          <NavLink
+            to="/logistics/add-partner"
+            className={({ isActive }) =>
+              `${linkBase} ${
+                isActive
+                  ? "bg-white/20"
+                  : "hover:bg-white/10"
+              }`
+            }
+          >
+            <UserPlus size={18} />
+            Add Partner
+          </NavLink>
+
+          <NavLink
+            to="/logistics/manage-partners"
+            className={({ isActive }) =>
+              `${linkBase} ${
+                isActive
+                  ? "bg-white/20"
+                  : "hover:bg-white/10"
+              }`
+            }
+          >
+            <Users size={18} />
+            Manage Partners
+          </NavLink>
+
+          <NavLink
+            to="/logistics/request"
+            className={({ isActive }) =>
+              `${linkBase} ${
+                isActive
+                  ? "bg-white/20"
+                  : "hover:bg-white/10"
+              }`
+            }
+          >
+            <Send size={18} />
+            Request Transport
+          </NavLink>
+        </div>
+      </nav>
+    </aside>
   );
 }
-
-const styles = {
-  sidebar: {
-    width: "220px",
-    background: "#1e1e2f",
-    height: "100vh",
-    padding: "20px",
-    color: "white",
-    display: "flex",
-    flexDirection: "column",
-    gap: "14px",
-  },
-  logo: {
-    marginBottom: "25px",
-    fontSize: "20px",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-    padding: "10px 14px",
-    borderRadius: "6px",
-    background: "#2a2a3e",
-    fontSize: "14px",
-  },
-  activeLink: {
-    color: "white",
-    textDecoration: "none",
-    padding: "10px 14px",
-    borderRadius: "6px",
-    background: "#4f46e5",
-    fontSize: "14px",
-    fontWeight: "600",
-  },
-};
 
 export default Sidebar;

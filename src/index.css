@@ -9,3 +9,30 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
 }
+
+/* ---- Dark mode headings and text globally ---- */
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6,
+main p,
+main span,
+main td,
+main th {
+  color: #1f2937; /* default dark gray in light mode */
+}
+
+.dark main h1,
+.dark main h2,
+.dark main h3,
+.dark main h4,
+.dark main h5,
+.dark main h6,
+.dark main p,
+.dark main span,
+.dark main td,
+.dark main th {
+  color: #ffffff; /* white text in dark mode */
+}

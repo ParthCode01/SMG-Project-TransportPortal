@@ -14,20 +14,6 @@ const COLORS = ["#6366f1", "#22c55e", "#f59e0b", "#ef4444", "#06b6d4"];
 function Dashboard() {
   const [checklists, setChecklists] = useState([]);
   const [chartData, setChartData] = useState([]);
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
-
-  /* ---------- THEME ---------- */
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
 
   /* ---------- DATA ---------- */
   useEffect(() => {
@@ -52,19 +38,12 @@ function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-900 transition">
+    <div className="min-h-screen p-6 bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           Dashboard
         </h1>
-
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700"
-        >
-          {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
-        </button>
       </div>
 
       {/* Stats */}
@@ -79,13 +58,13 @@ function Dashboard() {
       </div>
 
       {/* Chart */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-300 dark:border-gray-700 p-6 mb-8">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
           Checklists by Dealer
         </h2>
 
         {chartData.length === 0 ? (
-          <p className="text-gray-500">No data available.</p>
+          <p className="text-gray-600 dark:text-gray-300">No data available.</p>
         ) : (
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -109,8 +88,9 @@ function Dashboard() {
 
       {/* Actions + Recent */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+        {/* Quick Actions */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-300 dark:border-gray-700 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Quick Actions
           </h2>
           <div className="flex flex-col gap-3">
@@ -121,33 +101,37 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+        {/* Recent Checklists */}
+        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-300 dark:border-gray-700 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             Recent Checklists
           </h2>
 
           {checklists.length === 0 ? (
-            <p className="text-gray-500">No checklists yet.</p>
+            <p className="text-gray-600 dark:text-gray-300">No checklists yet.</p>
           ) : (
-            <table className="w-full border dark:border-gray-700">
-              <thead className="bg-gray-100 dark:bg-gray-700">
+            <table className="w-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
+              <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                 <tr>
-                  <th className="border p-2">Dealer</th>
-                  <th className="border p-2">Date</th>
-                  <th className="border p-2">Action</th>
+                  <th className="border p-3 text-left">Dealer</th>
+                  <th className="border p-3 text-center">Date</th>
+                  <th className="border p-3 text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {checklists.slice(-5).reverse().map((item) => (
-                  <tr key={item.id}>
-                    <td className="border p-2">{item.dealer?.name}</td>
-                    <td className="border p-2 text-center">
+                  <tr
+                    key={item.id}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <td className="border p-3 text-gray-900 dark:text-white">{item.dealer?.name}</td>
+                    <td className="border p-3 text-center text-gray-900 dark:text-white">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="border p-2 text-center">
+                    <td className="border p-3 text-center">
                       <Link
                         to={`/checksheets/order/${item.id}`}
-                        className="text-indigo-500 hover:underline"
+                        className="text-indigo-600 dark:text-indigo-400 hover:underline"
                       >
                         Open
                       </Link>
@@ -166,11 +150,9 @@ function Dashboard() {
 /* ---------- COMPONENTS ---------- */
 function StatCard({ title, value }) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-      <p className="text-gray-600 dark:text-gray-400">{title}</p>
-      <p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-2">
-        {value}
-      </p>
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-300 dark:border-gray-700 p-6">
+      <p className="text-gray-600 dark:text-gray-300">{title}</p>
+      <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">{value}</p>
     </div>
   );
 }
@@ -179,7 +161,7 @@ function ActionButton({ to, label }) {
   return (
     <Link
       to={to}
-      className="bg-indigo-600 text-white py-2 rounded text-center hover:bg-indigo-700"
+      className="bg-indigo-600 text-white py-2 rounded text-center hover:bg-indigo-700 transition-colors"
     >
       {label}
     </Link>

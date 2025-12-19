@@ -1,13 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class", // 🌙 REQUIRED for toggle-based dark mode
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}", // scan all React files
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: "#4f46e5", // indigo-600 (used in dashboard)
+        brand: {
+          DEFAULT: "#132F59",
+          dark: "#0E2342",
+          light: "#EAF0F8",
+          border: "rgba(19, 47, 89, 0.2)",
+        },
       },
     },
   },

@@ -1,88 +1,81 @@
 import { useState } from "react";
-import { trackVehicle } from "../api/vehicleAPI"; 
+// import { trackVehicle } from "../api/vehicleAPI"; // Uncomment when API ready
 
 function TrackVehicle() {
   const [searchId, setSearchId] = useState("");
   const [trackingData, setTrackingData] = useState(null);
 
-const handleSearch = async (e) => {
-  e.preventDefault();
-    // Temporary mock data (you will replace with API later)
-  setTrackingData({
-    vehicleNumber: "MH12AB1234",
-    uniqueId: searchId,
-    partner: "Delhivery",
-    status: "In-Transit",
-    lastUpdated: "2025-01-15 10:45 AM",
-  });
-};
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    // Temporary mock data (replace with API later)
+    setTrackingData({
+      vehicleNumber: "MH12AB1234",
+      uniqueId: searchId,
+      partner: "Delhivery",
+      status: "In-Transit",
+      lastUpdated: "2025-01-15 10:45 AM",
+    });
+  };
+
   return (
-    <div>
-      <h2>Track Vehicle</h2>
+    <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+        Track Vehicle
+      </h2>
 
       {/* Search Box */}
-      <form onSubmit={handleSearch} style={styles.searchBox}>
+      <form onSubmit={handleSearch} className="flex gap-3 max-w-lg mb-6">
         <input
           type="text"
           placeholder="Enter Unique Vehicle ID"
           value={searchId}
           onChange={(e) => setSearchId(e.target.value)}
-          style={styles.input}
+          className="flex-1 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand transition"
         />
-        <button style={styles.button}>Search</button>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-brand hover:bg-brand-dark text-white font-semibold rounded-md transition"
+        >
+          Search
+        </button>
       </form>
 
-      {/* Tracking Info Box */}
+      {/* Tracking Info Card */}
       {trackingData && (
-        <div style={styles.card}>
-          <p><strong>Vehicle Number:</strong> {trackingData.vehicleNumber}</p>
-          <p><strong>Unique ID:</strong> {trackingData.uniqueId}</p>
-          <p><strong>Transport Partner:</strong> {trackingData.partner}</p>
-          <p><strong>Status:</strong> 
-            <span style={styles.badge}>{trackingData.status}</span>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 max-w-md transition">
+          <p className="mb-2">
+            <span className="font-medium">Vehicle Number:</span>{" "}
+            {trackingData.vehicleNumber}
           </p>
-          <p><strong>Last Updated:</strong> {trackingData.lastUpdated}</p>
+          <p className="mb-2">
+            <span className="font-medium">Unique ID:</span> {trackingData.uniqueId}
+          </p>
+          <p className="mb-2">
+            <span className="font-medium">Transport Partner:</span>{" "}
+            {trackingData.partner}
+          </p>
+          <p className="mb-2">
+            <span className="font-medium">Status:</span>{" "}
+            <span
+              className={`px-3 py-1 rounded-full text-white font-semibold ${
+                trackingData.status === "In-Transit"
+                  ? "bg-yellow-500"
+                  : trackingData.status === "Delivered"
+                  ? "bg-green-500"
+                  : "bg-red-500"
+              }`}
+            >
+              {trackingData.status}
+            </span>
+          </p>
+          <p className="mb-0">
+            <span className="font-medium">Last Updated:</span> {trackingData.lastUpdated}
+          </p>
         </div>
       )}
     </div>
   );
 }
-
-const styles = {
-  searchBox: {
-    display: "flex",
-    gap: "10px",
-    marginTop: "20px",
-  },
-  input: {
-    flex: 1,
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    fontSize: "16px",
-  },
-  button: {
-    padding: "10px 20px",
-    background: "#007bff",
-    border: "none",
-    color: "white",
-    borderRadius: "5px",
-    fontSize: "16px",
-    cursor: "pointer",
-  },
-  card: {
-    marginTop: "20px",
-    padding: "20px",
-    background: "white",
-    borderRadius: "10px",
-    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-  },
-  badge: {
-    background: "#ffc107",
-    padding: "5px 10px",
-    borderRadius: "5px",
-    marginLeft: "8px"
-  }
-};
 
 export default TrackVehicle;

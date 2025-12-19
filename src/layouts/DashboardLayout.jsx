@@ -2,32 +2,26 @@ import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 
-function DashboardLayout() {
+function DashboardLayout({ darkMode, setDarkMode }) {
   return (
-    <div style={styles.container}>
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+      {/* Sidebar */}
       <Sidebar />
-      <div style={styles.main}>
-        <Navbar />
-        <div style={styles.content}>
-          <Outlet />
-        </div>
+
+      {/* Main Content */}
+      <div className="flex flex-1 flex-col">
+        {/* Navbar */}
+        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+
+        {/* Page Content */}
+        <main className="flex-1 overflow-y-auto p-6">
+          <div className="mx-auto max-w-7xl">
+            <Outlet />
+          </div>
+        </main>
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: "flex"
-  },
-  main: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-  },
-  content: {
-    padding: "20px"
-  }
-};
 
 export default DashboardLayout;
